@@ -1,0 +1,25 @@
+#!/usr/bin/python3
+
+import subprocess
+
+# number of terminal columns, grabbed from shell
+cols = int(subprocess.check_output("tput cols", shell=True))
+
+lines = []
+while True:
+    try:
+        lines.append(input())
+    except EOFError:
+        break
+
+col_count = 4
+row_count = len(lines)//col_count+1
+col_width = len(max(lines[:row_count], key=lambda L: len(L)))
+
+for i in range(row_count):
+    for j in range(col_count):
+        if col_count*i+j >= len(lines):
+            print("")
+            exit()
+        print(lines[col_count*i+j].ljust(col_width), end="     ")
+    print("")
